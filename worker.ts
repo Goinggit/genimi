@@ -53,25 +53,31 @@ interface Env {
     headers.set("x-goog-api-key", apiKey);
     headers.delete("Host");
     headers.delete("Authorization");
-  
+
+    console.log("Forwarding request to:", apiUrl);
+    console.log("Forwarding headers:", Object.fromEntries(headers.entries()));
+
     // 转发请求
     try {
-      const apiResponse = await fetch(
-        new Request(apiUrl, {
-          method: request.method,
-          headers: headers,
-          body: request.body,
-          redirect: "follow",
-        })
-      );
-  
+      const apiRequest = new Request(apiUrl, {
+        method: request.method,
+        headers: headers,
+        body: request.body,
+        redirect: "follow",
+      });
+
+      const apiResponse = await fetch(apiRequest);
+
+      console.log("Received response status:", apiResponse.status);
+      console.log("Received response headers:", Object.fromEntries(apiResponse.headers.entries()));
+
       // 添加 CORS 头后返回
       return new Response(apiResponse.body, {
         status: apiResponse.status,
         headers: mergeHeaders(apiResponse.headers, corsHeaders()),
       });
-    } catch (error) {
-      console.error("Error:", error);
+    } catch (error: any) { // 明确 error 类型以便访问 message
+      console.error("Error fetching from Gemini API:", error.message || error);
       return new Response("Internal Server Error", {
         status: 500,
         headers: corsHeaders(),
