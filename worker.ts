@@ -16,10 +16,9 @@ interface Env {
   
   // 主请求处理函数
 async function handleRequest(request: Request, env: Env): Promise<Response> {
-  console.log("--- Entering handleRequest ---");
-  console.log("Request Method:", request.method);
-  console.log("Request URL:", request.url);
-  console.log("Request Headers:", Object.fromEntries(request.headers.entries()));
+  // console.log("--- Entering handleRequest ---");
+  // console.log("Request Method:", request.method);
+  // console.log("Request URL:", request.url);
   // 处理 CORS 预检请求
   if (request.method === "OPTIONS") {
     return handleOPTIONS(request);
@@ -58,8 +57,8 @@ async function handleRequest(request: Request, env: Env): Promise<Response> {
     headers.delete("Host");
     headers.delete("Authorization");
 
-    console.log("Forwarding request to:", apiUrl);
-    console.log("Forwarding headers:", Object.fromEntries(headers.entries()));
+    // console.log("Forwarding request to:", apiUrl);
+    // console.log("Forwarding headers:", Object.fromEntries(headers.entries()));
 
     // 转发请求
     try {
@@ -72,8 +71,8 @@ async function handleRequest(request: Request, env: Env): Promise<Response> {
 
       const apiResponse = await fetch(apiRequest);
 
-      console.log("Received response status:", apiResponse.status);
-      console.log("Received response headers:", Object.fromEntries(apiResponse.headers.entries()));
+      // console.log("Received response status:", apiResponse.status);
+      // console.log("Received response headers:", Object.fromEntries(apiResponse.headers.entries()));
 
       // 添加 CORS 头后返回
       return new Response(apiResponse.body, {
