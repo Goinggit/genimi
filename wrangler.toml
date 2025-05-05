@@ -1,3 +1,5 @@
 name = "gemini"
 main = "worker.ts"
-compatibility_date = "2024-01-01"
+compatibility_date = "2025-05-05"
+[observability.logs]
+enabled = true
