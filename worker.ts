@@ -15,11 +15,15 @@ interface Env {
   };
   
   // 主请求处理函数
-  async function handleRequest(request: Request, env: Env): Promise<Response> {
-    // 处理 CORS 预检请求
-    if (request.method === "OPTIONS") {
-      return handleOPTIONS(request);
-    }
+async function handleRequest(request: Request, env: Env): Promise<Response> {
+  console.log("--- Entering handleRequest ---");
+  console.log("Request Method:", request.method);
+  console.log("Request URL:", request.url);
+  console.log("Request Headers:", Object.fromEntries(request.headers.entries()));
+  // 处理 CORS 预检请求
+  if (request.method === "OPTIONS") {
+    return handleOPTIONS(request);
+  }
   
     // 提取客户端 API Key
     const apiKey =
